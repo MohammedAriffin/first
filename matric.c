@@ -16,6 +16,7 @@ void input(int** mat, int r, int c) {
     }
 }
 void display(int** mat,int r, int c){
+    printf("Entered matric elements:\n");
     for(int i= 0; i < r; i++){
         for ( int j =0; j< c;j++){
             printf("%d ",mat[i][j]);
@@ -29,6 +30,18 @@ void freed(int** mat, int r){
     }
     free(mat);
 }
+int** multiply(int** mat1,int** mat2,int r1,int c1,int c2){
+    int** result=creatematrix(r1,c2);
+    for(int i=0;i<r1;i++){
+        for(int j=0;j<c2;j++){
+            result[i][j]=0;
+            for(int k=0;k<c1;k++){
+                result[i][j]+=mat1[i][k]*mat2[k][j];
+            }
+        }
+    }
+    return result;
+}
 int main(){
     int r1,r2,c1,c2;
     printf("enter row and column for matrix one:");
@@ -38,9 +51,12 @@ int main(){
     int** mat1 =creatematrix(r1,c1);
     int** mat2 = creatematrix(r2,c2);
     input(mat1,r1,c1);
-    input(mat2,r2,c2);
     display(mat1,r1,c1);
+    input(mat2,r2,c2);
     display(mat2,r2,c2);
+    int** r=multiply(mat1,mat2,r1,c1,c2);
+    display(r,r1,c2);
+    free(r);
     freed(mat1,r1);
     freed(mat2,r2);
 }
