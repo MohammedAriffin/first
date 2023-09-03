@@ -12,6 +12,7 @@ struct node* create(int a , int b){
         newnode->c=b;
         newnode->next=NULL;
     }
+    return newnode;
 }
 void insertf(struct node** head,int a,int b){
     struct node* newnode = create(a,b);
@@ -34,12 +35,58 @@ void deletef(struct node** head) {
         free(temp);
     }
 }
+void deletee(struct node** head){
+    struct node* current = *head;
+    if(current->next==NULL){
+        free(head);
+        *head==NULL;
+        return;
+    }
+    if(current==NULL){return;}
+    while(current->next->next!=NULL){
+        current=current->next;
+    }
+    free(current->next);
+    current->next=NULL;
+}
+void delete_v(struct node** head,int pos){
+    if(*head==NULL){return;}
+    struct node* temp = *head;
+    if(pos==0){
+        *head = temp->next;
+        free(temp);
+        printf("Node at position %d deleted.\n", pos);
+        return;
+    }
+    for(int i=0;temp!=NULL && i<pos-1;i++){
+        temp=temp->next;
+    }
+    if(temp==NULL || temp->next==NULL){
+        printf("NULL value encountered\n");
+        return;
+        }
+    struct node* temp2=temp->next;
+    temp->next=temp2->next;
+    free(temp2);
+    printf("Node at position %d deleted.\n", pos);
+}
 int main(){
     struct node*head=NULL;
-    insertf(&head,2,3);
-    insertf(&head,1,4);
-    insertf(&head,0,5);
+    int a;
+    printf("Enter highest power:");
+    scanf("%d",&a);
+    for(int i=0;i<=a;i++){
+        int p, c;
+        printf("enter %d terms(pow,coff):",i);
+        scanf("%d %d",&p,&c);
+        insertf(&head,p,c);
+    }
+    
+    display(head);
+    deletee(&head);
     display(head);
     deletef(&head);
+    display(head);
+    delete_v(&head,1);
     display(head);
 }
